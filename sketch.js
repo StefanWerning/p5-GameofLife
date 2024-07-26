@@ -1,4 +1,4 @@
-let cellSize = 20;
+let cellSize = 50;
 let columnCount;
 let rowCount;
 let currentCells = [];
@@ -7,7 +7,7 @@ let nextCells = [];
 function setup() {
   // Set simulation framerate to 10 to avoid flickering
   frameRate(10);
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(1800,1000);
 
   // Calculate columns and rows
   columnCount = floor(width / cellSize);
