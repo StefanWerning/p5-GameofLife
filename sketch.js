@@ -24,13 +24,11 @@ function setup() {
   for (let column = 0; column < columnCount; column++) {
     nextCells[column] = [];
   }
-
+ 
   noLoop();
   describe(
     "Grid of squares that switch between white and black, demonstrating a simulation of John Conway's Game of Life. When clicked, the simulation resets."
   );
-  let fs = fullscreen();
-  fullscreen(!fs);
 }
 
 function draw() {
@@ -115,6 +113,21 @@ function generate() {
   nextCells = temp;
 }
 
+function touchStarted () {
+  var fs = fullscreen();
+  if (!fs) {
+    fullscreen(true);
+  }
+}
+
+/* full screening will change the size of the canvas */
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
+
+/* prevents the mobile browser from processing some default
+ * touch events, like swiping left for "back" or scrolling the page.
+ */
+document.ontouchmove = function(event) {
+    event.preventDefault();
+};
