@@ -1,4 +1,4 @@
-let cellSize = 100;
+let cellSize = 50;
 let columnCount;
 let rowCount;
 let currentCells = [];
@@ -7,11 +7,11 @@ let nextCells = [];
 function setup() {
   // Set simulation framerate to 10 to avoid flickering
   frameRate(10);
-  createCanvas(1800,1000);
+  createCanvas(2000,1200);
 
   // Calculate columns and rows
-  columnCount = floor(width / cellSize);
-  rowCount = floor(height / cellSize);
+  columnCount = floor(width / cellSize); columnCount =30;
+  rowCount = floor(height / cellSize); rowCount = 20;
 
   // Set each column in current cells to an empty array
   // This allows cells to be added to this array
@@ -24,32 +24,43 @@ function setup() {
   for (let column = 0; column < columnCount; column++) {
     nextCells[column] = [];
   }
- 
-  noLoop();
+  
+  generate();
+
+  gobutton = createButton("GO!");
+  gobutton.mouseClicked(generate);
+  gobutton.size(200,450);
+  gobutton.position(1700,100);
+  resetbutton = createButton("RESET!");
+  resetbutton.mouseClicked(resetButton);
+  resetbutton.size(200,450);
+  resetbutton.position(1700,650);
+
   describe(
     "Grid of squares that switch between white and black, demonstrating a simulation of John Conway's Game of Life. When clicked, the simulation resets."
   );
 }
 
 function draw() {
-  generate();
+  clear();
   for (let column = 0; column < columnCount; column++) {
     for (let row = 0; row < rowCount; row++) {
       // Get cell value (0 or 1)
       let cell = currentCells[column][row];
-
       // Convert cell value to get black (0) for alive or white (255 (white) for dead
       fill((1 - cell) * 255);
       stroke(0);
-      rect(column * cellSize, row * cellSize, cellSize, cellSize);
+      rect(150+column * cellSize, 100+row * cellSize, cellSize, cellSize);
     }
   }
+  
+  text('hi', 150, 50);
+  noFill();stroke(200,0,0);
+  rect(ceil((mouseX-50)/50)*50,ceil((mouseY-50)/50)*50,100,100,20);
 }
 
 // Reset board when mouse is pressed
 function mousePressed() {
-  randomizeBoard();
-  loop();
 }
 
 // Fill board randomly
@@ -120,10 +131,10 @@ function touchStarted () {
   }
 }
 
-/* full screening will change the size of the canvas */
+/* full screening will change the size of the canvas 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-}
+}*/
 
 /* prevents the mobile browser from processing some default
  * touch events, like swiping left for "back" or scrolling the page.
@@ -131,3 +142,9 @@ function windowResized() {
 document.ontouchmove = function(event) {
     event.preventDefault();
 };
+
+function resetButton() {
+  noLoop();
+  randomizeBoard();
+  loop();
+}
