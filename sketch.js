@@ -1,4 +1,4 @@
-let cellSize = 50;
+let cellSize = 100;
 let columnCount;
 let rowCount;
 let currentCells = [];
