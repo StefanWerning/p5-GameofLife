@@ -7,11 +7,12 @@ let nextCells = [];
 function setup() {
   // Set simulation framerate to 10 to avoid flickering
   frameRate(10);
-  createCanvas(2000,1200);
+  //createCanvas(2000,1200);
+  createCanvas(1500,900);
 
   // Calculate columns and rows
-  columnCount = floor(width / cellSize); columnCount =30;
-  rowCount = floor(height / cellSize); rowCount = 20;
+  columnCount = floor(width / cellSize); columnCount =24;
+  rowCount = floor(height / cellSize); rowCount = 16;
 
   // Set each column in current cells to an empty array
   // This allows cells to be added to this array
@@ -29,12 +30,12 @@ function setup() {
 
   gobutton = createButton("GO!");
   gobutton.mouseClicked(generate);
-  gobutton.size(200,450);
-  gobutton.position(1700,100);
+  gobutton.size(200,400);
+  gobutton.position(1480,50);
   resetbutton = createButton("RESET!");
   resetbutton.mouseClicked(resetButton);
-  resetbutton.size(200,450);
-  resetbutton.position(1700,650);
+  resetbutton.size(200,400);
+  resetbutton.position(1480,450);
 
   describe(
     "Grid of squares that switch between white and black, demonstrating a simulation of John Conway's Game of Life. When clicked, the simulation resets."
@@ -50,17 +51,21 @@ function draw() {
       // Convert cell value to get black (0) for alive or white (255 (white) for dead
       fill((1 - cell) * 255);
       stroke(0);
-      rect(150+column * cellSize, 100+row * cellSize, cellSize, cellSize);
+      rect(50+column * cellSize, 50+row * cellSize, cellSize, cellSize);
     }
   }
   
   text('hi', 150, 50);
   noFill();stroke(200,0,0);
-  rect(ceil((mouseX-50)/50)*50,ceil((mouseY-50)/50)*50,100,100,20);
+  rect(0,0,width,height);
+  rect(ceil((mouseX-75)/50)*50,ceil((mouseY-75)/50)*50,100,100,20);
 }
 
 // Reset board when mouse is pressed
 function mousePressed() {
+  tr=floor((mouseY-50)/50);
+  tc=floor((mouseX-50)/50);
+  currentCells[tc][tr]=1-currentCells[tc][tr];
 }
 
 // Fill board randomly
