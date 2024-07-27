@@ -40,6 +40,18 @@ function setup() {
   describe(
     "Grid of squares that switch between white and black, demonstrating a simulation of John Conway's Game of Life. When clicked, the simulation resets."
   );
+
+  let url = 'https://api.openweathermap.org/data/2.5/weather?q=London&appid=e7402cc176aacd446829a856f2723b57&units=metric';
+  url = "https://www.alphavantage.co/query?function=WHEAT&interval=monthly&apikey=demo";
+  loadJSON(url,gotDataFunction);
+  let jsondmp = "";
+
+}
+
+function gotDataFunction(jsondata){
+  //jsondmp="Wind speed is "+data.wind.speed+" mph";
+  jsondmp="Price of wheat: "+round(jsondata.data[0].value,2)+" "+jsondata.unit+" on "+jsondata.data[0].date; // get date of first entry
+  //print(data);  
 }
 
 function draw() {
@@ -50,11 +62,11 @@ function draw() {
       let cell = currentCells[column][row];
       let nextcell = nextCells[column][row];
       // Convert cell value to get black (0) for dead or white (255 (white) for alive
-      stroke(0);
+      stroke(0);strokeWeight(1); 
       if (nextcell==1) {fill(0,128,0,127);rect(50+column * cellSize, 50+row * cellSize, cellSize, cellSize)};
       if (cell==1) {
         fill(128,128,128); rect(50+column * cellSize, 50+row * cellSize, cellSize, cellSize);
-        if (nextcell==0) {fill(64,0,0,127);rect(50+column * cellSize, 50+row * cellSize, cellSize, cellSize)};
+        if (nextcell==0) {stroke(64,0,0);strokeWeight(5);rect(50+column * cellSize, 50+row * cellSize, cellSize, cellSize)};
       }
     }
   }
@@ -63,6 +75,8 @@ function draw() {
   rect(0,0,width,height);
   rect(ceil((mouseX-75)/50)*50,ceil((mouseY-75)/50)*50,100,100,20);
   text('v0.9', 20, 20);
+
+  text(jsondmp, 20, 80);
  
 }
 
