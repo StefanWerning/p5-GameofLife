@@ -3,6 +3,15 @@ let columnCount;
 let rowCount;
 let currentCells = [];
 let nextCells = [];
+let sliding;
+let slider, resetbutton;
+
+function preload() {
+  liveimg = loadImage('/assets/livetex.jpg');
+  deadimg = loadImage('/assets/deadtex.jpg');
+  grassimg = loadImage('/assets/grass.png');
+  fireimg = loadImage('/assets/deadtree.png');
+}
 
 function setup() {
   // Set simulation framerate to 10 to avoid flickering
@@ -15,9 +24,6 @@ function setup() {
   cellSize=floor(height/rowCount);
   columnCount = floor((width-150) / cellSize);
 
-  // Set each column in current cells to an empty array
-  // This allows cells to be added to this array
-  // The index of the cell will be its row number
   for (let column = 0; column < columnCount; column++) {
     currentCells[column] = [];
   }
@@ -34,10 +40,18 @@ function setup() {
   gobutton.size(150,displayHeight/2);
   gobutton.position(displayWidth-150,0);
   resetbutton = createButton("RESET!");
-  resetbutton.mouseClicked(resetButton);
+  resetbutton.mouseClicked(resetFunction);
   resetbutton.size(150,displayHeight/2);
   resetbutton.position(displayWidth-150,displayHeight/2);
+  slider = createSlider(10, 90, 40);
+  slider.position(displayWidth-680, height/2);
+  slider.size(height-100, 20);
+  slider.style('transform', 'rotate(270deg)');
+  slider.input(slideInput);
+}
 
+function slideInput() {
+  resetbutton.html("Reset at "+slider.value()+"%!");
 }
 
 function draw() {
@@ -49,25 +63,35 @@ function draw() {
       let nextcell = nextCells[column][row];
       // Convert cell value to get black (0) for dead or white (255 (white) for alive
       stroke(0);strokeWeight(1); 
-      if (nextcell==1) {fill(0,128,0,127);rect(column * cellSize, row * cellSize, cellSize, cellSize)};
+      
       if (cell==1) {
-        fill(128,128,128); rect(column * cellSize, row * cellSize, cellSize, cellSize);
-        if (nextcell==0) {stroke(64,0,0);strokeWeight(5);rect(column * cellSize, row * cellSize, cellSize, cellSize)};
+        //fill(128,128,128); rect(column * cellSize, row * cellSize, cellSize, cellSize);
+        image(liveimg,column * cellSize, row * cellSize, cellSize, cellSize);
+        if (nextcell==0) {
+          //stroke(64,0,0);strokeWeight(5);rect(column * cellSize, row * cellSize, cellSize, cellSize);
+          image(fireimg,column * cellSize, row * cellSize, cellSize, cellSize);
+        };
+      } else {
+        image(deadimg,column * cellSize, row * cellSize, cellSize, cellSize);
+        if (nextcell==1) {
+          //fill(0,128,0,127);rect(column * cellSize, row * cellSize, cellSize, cellSize)
+          image(grassimg,column * cellSize, row * cellSize, cellSize, cellSize);
+        };
       }
     }
   }
   
-   noFill();stroke(200,0,0);
+  noFill();stroke(200,0,0);
   rect(0,0,width,height);
-  rect(ceil((mouseX-75)/50)*50,ceil((mouseY-75)/50)*50,100,100,20);
-  text("v0.91 | canvas: "+width+"*"+height+" px | display: "+displayWidth+"*"+displayHeight+" px", 20, 20);
-  //text("display: "+displayWidth * pixelDensity()+"*"+displayHeight * pixelDensity()+" pixels", 20, 60);
- 
+  if (mouseX<columnCount*cellSize) {rect(floor(mouseX/cellSize)*cellSize,floor(mouseY/cellSize)*cellSize,cellSize,cellSize,20);}
+  text("v0.92 | canvas: "+width+"*"+height+" px | display: "+displayWidth+"*"+displayHeight+" px ", 20, 20);
+  stroke(0,0,0);
+  //text(slider.value()+" %", width-150,20+height/4*3);
 }
 
 function mousePressed() {
-  tr=floor((mouseY-50)/50);
-  tc=floor((mouseX-50)/50);
+  tr=floor(mouseY/cellSize);
+  tc=floor(mouseX/cellSize);
   currentCells[tc][tr]=1-currentCells[tc][tr];
   nextCells[tc][tr]=currentCells[tc][tr];
   checkNext();
@@ -78,14 +102,14 @@ function randomizeBoard() {
   for (let column = 0; column < columnCount; column++) {
     for (let row = 0; row < rowCount; row++) {
       // Randomly select value of either 0 (dead) or 1 (alive)
-      if (random(0,10)<2) {
+      if (random(0,100)<slider.value()) {
         currentCells[column][row] = 1;
       } else {
         currentCells[column][row] = 0;
       }
     }
   }
-  generate();
+  checkNext();
 }
 
 // Create a new generation
@@ -157,7 +181,7 @@ document.ontouchmove = function(event) {
     event.preventDefault();
 };
 
-function resetButton() {
+function resetFunction() {
   noLoop();
   randomizeBoard();
   loop();
