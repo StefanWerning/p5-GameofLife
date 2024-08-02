@@ -7,10 +7,10 @@ let sliding;
 let slider, resetbutton;
 
 function preload() {
-  liveimg = loadImage('/assets/livetex.jpg');
-  deadimg = loadImage('/assets/deadtex.jpg');
-  grassimg = loadImage('/assets/grass.png');
-  fireimg = loadImage('/assets/deadtree.png');
+  //liveimg = loadImage('/assets/livetex.jpg');
+  //deadimg = loadImage('/assets/deadtex.jpg');
+  grassimg = loadImage('grass.png');
+  fireimg = loadImage('deadtree.png');
 }
 
 function setup() {
