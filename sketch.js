@@ -9,7 +9,7 @@ let slider, resetbutton;
 function preload() {
   //liveimg = loadImage('/assets/livetex.jpg');
   //deadimg = loadImage('/assets/deadtex.jpg');
-  grassimg = loadImage('/assets/grass.png');
+  grassimg = loadImage('grass.png');
   //fireimg = loadImage('/assets/deadtree.png');
 }
 
