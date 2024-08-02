@@ -7,10 +7,10 @@ let sliding;
 let slider, resetbutton;
 
 function preload() {
-  //liveimg = loadImage('/assets/livetex.jpg');
-  //deadimg = loadImage('/assets/deadtex.jpg');
+  liveimg = loadImage('/assets/livetex.jpg');
+  deadimg = loadImage('/assets/deadtex.jpg');
   grassimg = loadImage('/assets/grass.png');
-  //fireimg = loadImage('/assets/deadtree.png');
+  fireimg = loadImage('/assets/deadtree.png');
 }
 
 function setup() {
@@ -68,8 +68,8 @@ function draw() {
         fill(128,128,128); rect(column * cellSize, row * cellSize, cellSize, cellSize);
         //image(liveimg,column * cellSize, row * cellSize, cellSize, cellSize);
         if (nextcell==0) {
-          stroke(64,0,0);strokeWeight(5);rect(column * cellSize, row * cellSize, cellSize, cellSize);
-          //image(fireimg,column * cellSize, row * cellSize, cellSize, cellSize);
+          //stroke(64,0,0);strokeWeight(5);rect(column * cellSize, row * cellSize, cellSize, cellSize);
+          image(fireimg,column * cellSize, row * cellSize, cellSize, cellSize);
         };
       } else {
         //image(deadimg,column * cellSize, row * cellSize, cellSize, cellSize);
