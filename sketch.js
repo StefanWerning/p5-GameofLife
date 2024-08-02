@@ -7,10 +7,10 @@ let sliding;
 let slider, resetbutton;
 
 function preload() {
-  liveimg = loadImage('/assets/livetex.jpg');
-  deadimg = loadImage('/assets/deadtex.jpg');
+  //liveimg = loadImage('/assets/livetex.jpg');
+  //deadimg = loadImage('/assets/deadtex.jpg');
   grassimg = loadImage('/assets/grass.png');
-  fireimg = loadImage('/assets/deadtree.png');
+  //fireimg = loadImage('/assets/deadtree.png');
 }
 
 function setup() {
@@ -43,7 +43,7 @@ function setup() {
   resetbutton.mouseClicked(resetFunction);
   resetbutton.size(150,displayHeight/2);
   resetbutton.position(displayWidth-150,displayHeight/2);
-  slider = createSlider(10, 90, 40);
+  slider = createSlider(10, 90, 25);
   slider.position(displayWidth-680, height/2);
   slider.size(height-100, 20);
   slider.style('transform', 'rotate(270deg)');
@@ -62,22 +62,24 @@ function draw() {
       let cell = currentCells[column][row];
       let nextcell = nextCells[column][row];
       // Convert cell value to get black (0) for dead or white (255 (white) for alive
-      stroke(0);strokeWeight(1); 
-      
+      stroke(0);strokeWeight(1);
+
       if (cell==1) {
-        //fill(128,128,128); rect(column * cellSize, row * cellSize, cellSize, cellSize);
-        image(liveimg,column * cellSize, row * cellSize, cellSize, cellSize);
+        fill(128,128,128); rect(column * cellSize, row * cellSize, cellSize, cellSize);
+        //image(liveimg,column * cellSize, row * cellSize, cellSize, cellSize);
         if (nextcell==0) {
-          //stroke(64,0,0);strokeWeight(5);rect(column * cellSize, row * cellSize, cellSize, cellSize);
-          image(fireimg,column * cellSize, row * cellSize, cellSize, cellSize);
+          stroke(64,0,0);strokeWeight(5);rect(column * cellSize, row * cellSize, cellSize, cellSize);
+          //image(fireimg,column * cellSize, row * cellSize, cellSize, cellSize);
         };
       } else {
-        image(deadimg,column * cellSize, row * cellSize, cellSize, cellSize);
+        //image(deadimg,column * cellSize, row * cellSize, cellSize, cellSize);
         if (nextcell==1) {
           //fill(0,128,0,127);rect(column * cellSize, row * cellSize, cellSize, cellSize)
           image(grassimg,column * cellSize, row * cellSize, cellSize, cellSize);
         };
       }
+      if (row==0) text (column,column * cellSize+(cellSize/2), row * cellSize+(cellSize/2));
+      if (column==0) text (char(row+65),-8+column * cellSize+(cellSize/2), row * cellSize+(cellSize/2));
     }
   }
   
@@ -86,7 +88,7 @@ function draw() {
   if (mouseX<columnCount*cellSize) {rect(floor(mouseX/cellSize)*cellSize,floor(mouseY/cellSize)*cellSize,cellSize,cellSize,20);}
   text("v0.92 | canvas: "+width+"*"+height+" px | display: "+displayWidth+"*"+displayHeight+" px ", 20, 20);
   stroke(0,0,0);
-  //text(slider.value()+" %", width-150,20+height/4*3);
+
 }
 
 function mousePressed() {
